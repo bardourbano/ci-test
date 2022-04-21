@@ -31,5 +31,5 @@ jobs:
           host: ${{ secrets.FTP_SERVER }}
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          localDir: "html"
-          remoteDir: ${{ github.workspace }}
+          localDir: ${{ github.workspace }}
+          remoteDir: "public_html"

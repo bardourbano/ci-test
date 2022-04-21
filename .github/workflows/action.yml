@@ -22,14 +22,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/checkout@v2
       - name: ftp-action
-        # You may pin to the exact commit or the version.
-        # uses: sebastianpopp/ftp-action@eb75c5cb29d23ee4a729720a27dfb66403cb0f6d
-        uses: sebastianpopp/ftp-action@v2.0.0
+        uses: airvzxf/ftp-deployment-action@latest
         with:
           # FTP host
-          host: ${{ secrets.FTP_SERVER }}
+          server: ${{ secrets.FTP_SERVER }}
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          localDir: ${{ github.workspace }}
-          remoteDir: "public_html"
+          local_dir: "./html"
+          remote_dir: "./public_html"

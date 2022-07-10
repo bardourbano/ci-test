@@ -71,3 +71,10 @@ jobs:
                 remote_dir: "./public_html"
 ```
 
+### Credenciais
+Por motivos de segurança as credenciais de comunicação com o servidor ftp, assim como o endereço do mesmo, foram salvas e acessadas por meio de `secrets`, variáveis de ambiente voltadas para esse tipo de informações.
+
+
+Um _secret_ pode ser definido no repositório indo em `Settings > Secrets > Actions` e clicando em `New repository secret`.
+
+Após isso o _secret_ pode ser acessado por com a sintaxe `{{ secrets.SECRET_NAME }}` conforme visto no código acima.

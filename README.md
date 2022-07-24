@@ -19,7 +19,7 @@ Os arquivos de workflow utilizados são compostos pelos seguintes atributos:
 
 #### name
 O nome do fluxo de trabalho.
-```yml
+```yaml
 name: deploy-homolog
 ```
 
@@ -32,7 +32,7 @@ Os gatilhos para o fluxo de trabalho.
 
 *pull_request:* configura o fluxo para ser iniciado por _pull requests_ em um brach determinado.
 
-```yml
+```yaml
 on:
     push:
         branches: [homolog]
@@ -53,9 +53,9 @@ Esse job é responsável por fazer o upload do repositório no ftp e composto pe
 *runs-on:* determina o tipo de _runner_ que executará o _job_.
 
 *steps:* os passos a serem executados, informando quais (quando necessário) actions extrnas serão utilizadas em um step, os parâmetros dessas actions e o nome do passo.
-> A actioon da comunidade [airvzxf/ftp-deployment-action](airvzxf/ftp-deployment-action@latest) é utilizada para fazer o upload do repositório via ftp.
+> A actioon da comunidade [airvzxf/ftp-deployment-action](https://github.com/marketplace/actions/ftp-deployment) é utilizada para fazer o upload do repositório via ftp.
 
-```yml
+```yaml
 jobs:
     upload:
         runs-on: ubuntu-latest
@@ -70,6 +70,19 @@ jobs:
                 local_dir: "./html"
                 remote_dir: "./public_html"
 ```
+
+> No workflow de `deploy-prod` um *step* adicional é utilizado antes do *step* `ftp-action` para realizar automaticamente o *merge* do *branch* `homolog` para o *branch* `main`.:
+> ```yaml
+> - uses: actions/checkout@v2
+>
+> - name: merge
+>   uses: devmasx/merge-branch@master
+>   with:
+>     type: now
+>     from_branch: homolog
+>     target_branch: main
+>     github_token: ${{ secrets.GITHUB_TOKEN }}
+Esse *step* utiliza uma action da comunidade [devmasx/merge-branch](https://github.com/marketplace/actions/merge-branch) para realizar o *merge* do *branch* `homolog` para o *branch* `main`.
 
 ### Credenciais
 Por motivos de segurança as credenciais de comunicação com o servidor ftp, assim como o endereço do mesmo, foram salvas e acessadas por meio de `secrets`, variáveis de ambiente voltadas para esse tipo de informações.
